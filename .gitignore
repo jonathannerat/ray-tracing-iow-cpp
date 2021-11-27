@@ -1,5 +1,3 @@
 # build files
 compile_commands.json
-iow
-src/**/*.o
-out.png
+build/
