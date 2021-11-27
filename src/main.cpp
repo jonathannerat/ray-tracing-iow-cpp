@@ -26,8 +26,8 @@ main(int argc, char **argv) {
 	HittableList world;
 	auto material_ground = make_shared<Lambertian>(Color(.8, .8, 0));
 	auto material_center = make_shared<Lambertian>(Color(.7, .3, .3));
-	auto material_left = make_shared<Metal>(Color(.8, .8, .8));
-	auto material_right = make_shared<Metal>(Color(.8, .6, .2));
+	auto material_left = make_shared<Metal>(Color(.8, .8, .8), .3);
+	auto material_right = make_shared<Metal>(Color(.8, .6, .2), 1);
 
 	world.add(make_shared<Sphere>(Point3(0, -100.5, -1), 100, material_ground));
 	world.add(make_shared<Sphere>(Point3(0, 0, -1), .5, material_center));

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../rtweekend.h"
-
-struct HitRecord;
+#include "../hittable/hittable.h"
 
 class Material {
 	public:
@@ -35,16 +33,17 @@ public:
 
 class Metal : public Material {
 public:
-	Metal(const Color &a) : albedo(a) {}
+	Metal(const Color &a, double f) : albedo(a), fuzz(f) {}
 
 	virtual bool scatter(
 		const Ray &r_in, const HitRecord &rec, Color &attenuation, Ray &scattered
 	) const override {
 		Vec3 reflected = reflect(r_in.dir.normalized(), rec.normal);
-		scattered = Ray(rec.p, reflected);
+		scattered = Ray(rec.p, reflected + fuzz * random_in_unit_sphere());
 		attenuation = albedo;
 		return dot(reflected, rec.normal) > 0;
 	}
 
 	Color albedo;
+	double fuzz;
 };
