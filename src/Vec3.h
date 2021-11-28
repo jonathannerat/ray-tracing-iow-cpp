@@ -85,6 +85,14 @@ inline Vec3 random_in_hemisphere(const Vec3 &normal) {
 	return dot(in_unit_sphere, normal) > 0 ? in_unit_sphere : -in_unit_sphere;
 }
 
+inline Vec3 random_in_unit_disk() {
+	while (true) {
+		Vec3 p = Vec3(random_double(-1, 1), random_double(-1, 1), 0);
+		if (p.length2() >= 1) continue;
+		return p;
+	}
+}
+
 inline Vec3 reflect(const Vec3 &v, const Vec3 &n) {
 	return v - 2*dot(v, n)*n;
 }

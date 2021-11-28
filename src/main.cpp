@@ -36,7 +36,12 @@ main(int argc, char **argv) {
 	world.add(make_shared<Sphere>(Point3(1, 0, -1), .5, material_right));
 
 	// camera
-	Camera cam;
+	Point3 from(3, 3, 2);
+	Point3 to(0, 0, -1);
+	Vec3 vup(0, 1, 0);
+	double dist_to_focus = (from - to).length();
+	double aperture = 1.1;
+	Camera cam(from, to, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
 	// render
 	cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
