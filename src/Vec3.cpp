@@ -19,8 +19,7 @@ Vec3& Vec3::operator*=(double t) {
 Vec3& Vec3::operator/=(double t) { return *this *= 1/t; }
 
 bool Vec3::near_zero() const {
-	const double s = 1e-8;
-	return (fabs(x) < s) && (fabs(y) < s) && (fabs(z) < s);
+	return (fabs(x) < EPS) && (fabs(y) < EPS) && (fabs(z) < EPS);
 }
 
 double Vec3::length() const { return sqrt(this->length2()); }

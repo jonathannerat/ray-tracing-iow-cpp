@@ -3,6 +3,8 @@
 #include "Ray.h"
 #include "Camera.h"
 #include "hittable/Sphere.h"
+#include "hittable/Plane.h"
+#include "hittable/Triangle.h"
 #include "materials/Material.h"
 #include "hittable/HittableList.h"
 #include "color.h"
@@ -24,19 +26,21 @@ main(int argc, char **argv) {
 
 	// world
 	HittableList world;
-	auto material_ground = make_shared<Lambertian>(Color(.8, .8, 0));
+	auto material_ground = make_shared<Lambertian>(Color(.8, .8, .0));
 	auto material_center = make_shared<Lambertian>(Color(.2, .1, .8));
 	auto material_left = make_shared<Dielectric>(1.5);
 	auto material_right = make_shared<Metal>(Color(.8, .8, .8), .1);
+	auto material_tri = make_shared<Lambertian>(Color(0, .1, .5));
 
-	world.add(make_shared<Sphere>(Point3(0, -100.5, -1), 100, material_ground));
+	world.add(make_shared<Triangle>(Point3(-2, -.8, 0), Point3(0, -.8, 0), Point3(-1, -.8, -2), material_tri));
+	world.add(make_shared<Plane>(Point3(0, -1, 0), Vec3(0, 1, 0), material_ground));
 	world.add(make_shared<Sphere>(Point3(0, 0, -1), .5, material_center));
 	world.add(make_shared<Sphere>(Point3(-1, 0, -1), .5, material_left));
 	world.add(make_shared<Sphere>(Point3(-1, 0, -1), -.45, material_left));
 	world.add(make_shared<Sphere>(Point3(1, 0, -1), .5, material_right));
 
 	// camera
-	Point3 from(3, 3, 2);
+	Point3 from(6, 6, 4);
 	Point3 to(0, 0, -1);
 	Vec3 vup(0, 1, 0);
 	double dist_to_focus = (from - to).length();

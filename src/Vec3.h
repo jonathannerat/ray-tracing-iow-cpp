@@ -3,8 +3,10 @@
 
 #include "rtweekend.h"
 
-#include <cmath>
+#include <math.h>
 #include <iostream>
+
+#define EPS 1e-8
 
 struct Vec3 {
 	inline static Vec3 random() {
@@ -66,6 +68,10 @@ inline Vec3 cross(const Vec3 &a, const Vec3 &b) {
 	return Vec3(a.y * b.z - b.y * a.z,
 	            b.x * a.z - a.x * b.z,
 	            a.x * b.y - b.x * a.y);
+}
+
+inline bool perpendicular(const Vec3 &a, const Vec3 &b) {
+	return abs(dot(a, b)) < EPS;
 }
 
 inline Vec3 random_in_unit_sphere() {
