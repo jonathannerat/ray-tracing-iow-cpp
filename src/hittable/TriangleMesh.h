@@ -3,12 +3,12 @@
 
 #include <string>
 
-#include "Triangle.h"
 #include "HittableList.h"
+#include "Triangle.h"
 
 class TriangleMesh : public HittableList {
-	public:
-	TriangleMesh(const std::string &objpath, shared_ptr<Material> m);
+public:
+  TriangleMesh(const std::string &objpath, shared_ptr<Material> m);
 };
 
 #endif // TRIANGLEMESH_H

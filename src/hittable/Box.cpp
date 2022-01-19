@@ -4,19 +4,19 @@
 
 using namespace std;
 
-Box::Box(Point3 c1, Point3 c2, shared_ptr<Material> m)
-    : corner1(c1), corner2(c2), mat_ptr(m) {
-  Vec3 x(c1.x < c2.x ? 1 : -1, 0, 0);
-  Vec3 y(0, c1.y < c2.y ? 1 : -1, 0);
-  Vec3 z(0, 0, c1.z < c2.z ? 1 : -1);
+Box::Box(Point3 cb, Point3 cf, shared_ptr<Material> m) : mat_ptr(m) {
+  cback = Point3(MIN(cb.x, cf.x), MIN(cb.y, cf.y), MIN(cb.z, cf.z));
+  cfront = Point3(MAX(cb.x, cf.x), MAX(cb.y, cf.y), MAX(cb.z, cf.z));
 
-  faces.push_back(Plane(c1, -x, m));
-  faces.push_back(Plane(c1, y, m));
-  faces.push_back(Plane(c1, z, m));
+  Vec3 x(1, 0, 0), y(0, 1, 0), z(0, 0, 1);
 
-  faces.push_back(Plane(c2, x, m));
-  faces.push_back(Plane(c2, -y, m));
-  faces.push_back(Plane(c2, -z, m));
+  faces.push_back(Plane(cb, -x, m));
+  faces.push_back(Plane(cb, -y, m));
+  faces.push_back(Plane(cb, -z, m));
+
+  faces.push_back(Plane(cf, x, m));
+  faces.push_back(Plane(cf, y, m));
+  faces.push_back(Plane(cf, z, m));
 }
 
 bool Box::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const {
@@ -38,15 +38,17 @@ bool Box::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const {
 bool Box::is_inside(const Point3 &p) const {
   bool inside = true;
 
-  inside &= corner1.x < corner2.x
-                ? (corner1.x - EPS <= p.x && p.x <= corner2.x + EPS)
-                : (corner2.x - EPS <= p.x && p.x <= corner1.x + EPS);
-  inside &= corner1.y < corner2.y
-                ? (corner1.y - EPS <= p.y && p.y <= corner2.y + EPS)
-                : (corner2.y - EPS <= p.y && p.y <= corner1.y + EPS);
-  inside &= corner1.z < corner2.z
-                ? (corner1.z - EPS <= p.z && p.z <= corner2.z + EPS)
-                : (corner2.z - EPS <= p.z && p.z <= corner1.z + EPS);
+  inside &= cback.x < cfront.x
+                ? (cback.x - EPS <= p.x && p.x <= cfront.x + EPS)
+                : (cfront.x - EPS <= p.x && p.x <= cback.x + EPS);
+  inside &= cback.y < cfront.y
+                ? (cback.y - EPS <= p.y && p.y <= cfront.y + EPS)
+                : (cfront.y - EPS <= p.y && p.y <= cback.y + EPS);
+  inside &= cback.z < cfront.z
+                ? (cback.z - EPS <= p.z && p.z <= cfront.z + EPS)
+                : (cfront.z - EPS <= p.z && p.z <= cback.z + EPS);
 
   return inside;
 }
+
+shared_ptr<const Box> Box::bounding_box() const { return shared_from_this(); }
