@@ -13,6 +13,7 @@ Triangle::Triangle(Point3 p0, Point3 p1, Point3 p2, shared_ptr<Material> m)
     MAX(MAX(p0.z, p1.z), p2.z));
 
   box = make_shared<const Box>(cback, cfront, nullptr);
+  refp = (p0 + p1 + p2)/3;
 }
 
 bool Triangle::hit(const Ray &r, double t_min, double t_max,

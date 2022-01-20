@@ -1,6 +1,9 @@
+#include <iostream>
+#include <math.h>
+
 #include "Plane.h"
 
-#include "math.h"
+using namespace std;
 
 bool Plane::hit(const Ray &r, double t_min, double t_max,
                 HitRecord &rec) const {

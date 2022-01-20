@@ -4,9 +4,10 @@
 using std::sqrt;
 
 Sphere::Sphere(Point3 c, double r, shared_ptr<Material> m)
-      : center(c), radius(r), mat_ptr(m){
-      box = make_shared<Box>(c - Vec3(r, r, r), c + Vec3(r, r, r), nullptr);
-  }
+    : center(c), radius(r), mat_ptr(m) {
+  box = make_shared<Box>(c - Vec3(r, r, r), c + Vec3(r, r, r), nullptr);
+  refp = c;
+}
 bool Sphere::hit(const Ray &r, double t_min, double t_max,
                  HitRecord &rec) const {
   Vec3 oc = r.origin - center;
@@ -37,6 +38,4 @@ bool Sphere::hit(const Ray &r, double t_min, double t_max,
   return true;
 }
 
-std::shared_ptr<const Box> Sphere::bounding_box() const {
-  return box;
-}
+std::shared_ptr<const Box> Sphere::bounding_box() const { return box; }

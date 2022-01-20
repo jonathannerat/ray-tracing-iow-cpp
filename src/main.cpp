@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "KDTree.h"
 #include "Ray.h"
 #include "Vec3.h"
 #include "color.h"
@@ -28,23 +29,20 @@ int main(int argc, char **argv) {
   // world
   HittableList world;
   auto ground_mat = make_shared<Lambertian>(Color(.18, .37, .1));
-  auto box_mat = make_shared<Metal>(Color(.8, .8, .8), .1);
   auto sphere_mat = make_shared<Lambertian>(Color(0, .2, .8));
   auto cow_mat = make_shared<Lambertian>(Color(1, .83, .36));
 
-  auto wtri = make_shared<Triangle>(Point3(-2, 0, -4), Point3(2, 0, -4), Point3(0, .4, 1), ground_mat);
-  auto wbox = make_shared<Box>(Point3(0, 1.2, -1), Point3(1, 0.2, -2), box_mat);
-  auto wsphere = make_shared<Sphere>(Point3(-1, .6, -1.5), .5, sphere_mat);
-  auto cow = make_shared<TriangleMesh>("models/cow.obj", cow_mat);
+  auto cow = make_shared<KDTree>(TriangleMesh("models/cow.obj", cow_mat), 500);
+  auto triangle = make_shared<Triangle>(Point3(-2, -1, -4), Point3(2, -1, -4), Point3(0, -1, 1), ground_mat);
+  auto box = make_shared<Box>(Point3(-1, -.8, -1), Point3(), sphere_mat);
 
-  world.add(wtri);
-  world.add(wbox);
-  world.add(wsphere);
+  /* world.add(triangle); */
+  /* world.add(box); */
   world.add(cow);
 
   // camera
-  Point3 from(-3, 3, 2);
-  Point3 to(0, .5, .5);
+  Point3 from(6, 6, 4);
+  Point3 to;
   Vec3 vup(0, 1, 0);
   double dist_to_focus = (from - to).length();
   double aperture = .05;

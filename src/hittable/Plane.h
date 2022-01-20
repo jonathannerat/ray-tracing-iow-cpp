@@ -10,7 +10,8 @@ public:
   shared_ptr<Material> mat_ptr;
 
   Plane(Point3 o, Vec3 n, shared_ptr<Material> m)
-      : origin(o), normal(n), mat_ptr(m){};
+      : origin(o), normal(n), mat_ptr(m) { refp = o; };
+  Plane(const Plane &o): origin(o.origin), normal(o.normal), mat_ptr(o.mat_ptr) {};
 
   virtual bool hit(const Ray &r, double t_min, double t_max,
                    HitRecord &rec) const override;

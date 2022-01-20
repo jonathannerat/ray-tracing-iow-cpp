@@ -23,6 +23,7 @@ struct Vec3 {
   Vec3() : x(0), y(0), z(0) {}
   Vec3(double x, double y, double z) : x(x), y(y), z(z) {}
 
+  Vec3 &operator=(const Vec3 &o);
   Vec3 operator-() const;
   Vec3 &operator+=(const Vec3 &v);
   Vec3 &operator*=(double t);
@@ -30,6 +31,7 @@ struct Vec3 {
 
   bool operator==(const Vec3 &o) const;
   bool operator!=(const Vec3 &o) const;
+  bool operator<(const Vec3 &o) const;
 
   inline Vec3 operator+(const Vec3 &b) const {
     return Vec3(this->x + b.x, this->y + b.y, this->z + b.z);

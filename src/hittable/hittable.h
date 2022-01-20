@@ -23,6 +23,7 @@ struct HitRecord {
 
 class Hittable {
 public:
+  Point3 refp;
   virtual bool hit(const Ray &r, double t_min, double t_max,
                    HitRecord &rec) const = 0;
 

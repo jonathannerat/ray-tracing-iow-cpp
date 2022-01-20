@@ -2,6 +2,14 @@
 
 Vec3 Vec3::operator-() const { return Vec3(-x, -y, -z); }
 
+Vec3& Vec3::operator=(const Vec3 &o) {
+  x = o.x;
+  y = o.y;
+  z = o.z;
+
+  return *this;
+}
+
 Vec3 &Vec3::operator+=(const Vec3 &v) {
   x += v.x;
   y += v.y;
@@ -32,4 +40,8 @@ bool Vec3::operator==(const Vec3 &o) const {
 
 bool Vec3::operator!=(const Vec3 &o) const {
   return !(*this == o);
+}
+
+bool Vec3::operator<(const Vec3 &o) const {
+  return x < o.x && y < o.y && z < o.z;
 }
