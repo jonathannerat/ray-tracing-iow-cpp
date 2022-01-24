@@ -45,7 +45,8 @@ int main(int argc, char **argv) {
   Vec3 vup(0, 1, 0);
   double dist_to_focus = (from - to).length();
   double aperture = .05;
-  Camera cam(from, to, vup, 30, aspect_ratio, aperture, dist_to_focus);
+  int field_of_view = 45;
+  Camera cam(from, to, vup, field_of_view, aspect_ratio, aperture, dist_to_focus);
 
   // render
   cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
