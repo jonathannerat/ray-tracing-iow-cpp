@@ -29,24 +29,23 @@ int main(int argc, char **argv) {
   // world
   HittableList world;
   auto ground_mat = make_shared<Lambertian>(Color(.18, .37, .1));
-  auto sphere_mat = make_shared<Lambertian>(Color(0, .2, .8));
+  auto sphere_mat = make_shared<Metal>(Color(.8, .8, .8), .6);
   auto cow_mat = make_shared<Lambertian>(Color(1, .83, .36));
 
-  auto cow = make_shared<KDTree>(TriangleMesh("models/cow.obj", cow_mat), 500);
-  auto triangle = make_shared<Triangle>(Point3(-2, -1, -4), Point3(2, -1, -4), Point3(0, -1, 1), ground_mat);
-  auto box = make_shared<Box>(Point3(-1, -.8, -1), Point3(), sphere_mat);
+  auto cow = make_shared<KDTree>(TriangleMesh("models/cow.obj", cow_mat), 200);
+  auto sphere = make_shared<Sphere>(Point3(-1, 1, -1), .5, sphere_mat);
 
-  /* world.add(triangle); */
-  /* world.add(box); */
   world.add(cow);
+  world.add(sphere);
+  world.add(make_shared<Plane>(Point3(0, -1, 0), Vec3(0, 1, 0), ground_mat));
 
   // camera
-  Point3 from(6, 6, 4);
-  Point3 to;
+  Point3 from(0, 2, -3);
+  Point3 to(0, -1, 0);
   Vec3 vup(0, 1, 0);
   double dist_to_focus = (from - to).length();
   double aperture = .05;
-  Camera cam(from, to, vup, 20, aspect_ratio, aperture, dist_to_focus);
+  Camera cam(from, to, vup, 30, aspect_ratio, aperture, dist_to_focus);
 
   // render
   cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
