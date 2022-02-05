@@ -23,3 +23,14 @@ bool Plane::hit(const Ray &r, double t_min, double t_max,
 }
 
 std::shared_ptr<const Box> Plane::bounding_box() const { return nullptr; }
+
+// Escalar un plano no tiene mucho sentido, así que lo vamos a usar para
+// escalar en su lugar a la normal al plano
+void Plane::scale(const Vec3 &s) {
+  normal = normal * s;
+}
+
+void Plane::move(const Vec3 &o) {
+  origin += o;
+  refp += o;
+}

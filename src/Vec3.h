@@ -51,6 +51,12 @@ struct Vec3 {
 
   inline Vec3 operator/(double t) const { return *this * (1 / t); }
 
+  inline Vec3 operator+(double t) const {
+    return Vec3(this->x + t, this->y + t, this->z + t);
+  }
+
+  inline Vec3 operator-(double t) const { return *this + (-t); }
+
   inline Vec3 normalized() const { return *this / this->length(); }
 
   bool near_zero() const;

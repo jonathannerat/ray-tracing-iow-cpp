@@ -16,6 +16,14 @@ Triangle::Triangle(Point3 p0, Point3 p1, Point3 p2, shared_ptr<Material> m)
   refp = (p0 + p1 + p2)/3;
 }
 
+void Triangle::scale_inplace(const Vec3 &s) {
+    p0 = p0 * s;
+    p1 = p1 * s;
+    p2 = p2 * s;
+
+    box = make_shared<const Box>(box->cback * s, box->cfront * s, box->mat_ptr);
+}
+
 bool Triangle::hit(const Ray &r, double t_min, double t_max,
                    HitRecord &rec) const {
   Vec3 normal = cross(p1 - p0, p2 - p0);
@@ -43,3 +51,23 @@ bool Triangle::hit(const Ray &r, double t_min, double t_max,
 }
 
 shared_ptr<const Box> Triangle::bounding_box() const { return box; }
+
+void Triangle::scale(const Vec3 &s) {
+  p0 = (p0 - refp) * s + refp;
+  p1 = (p1 - refp) * s + refp;
+  p2 = (p2 - refp) * s + refp;
+
+  auto newbox = make_shared<Box>(*box);
+  newbox->scale(s);
+  box = newbox;
+}
+
+void Triangle::move(const Vec3 &o) {
+  p0 += o;
+  p1 += o;
+  p2 += o;
+
+  auto newbox = make_shared<Box>(*box);
+  newbox->move(o);
+  box = newbox;
+}

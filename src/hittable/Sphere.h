@@ -16,8 +16,10 @@ public:
 
   virtual std::shared_ptr<const Box> bounding_box() const override;
 
+  virtual void scale(const Vec3 &s) override;
+  virtual void move(const Vec3 &o) override;
 private:
-  shared_ptr<Box> box;
+  shared_ptr<const Box> box;
 };
 
 #endif // SPHERE_H

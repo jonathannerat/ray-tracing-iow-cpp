@@ -56,3 +56,19 @@ TriangleMesh::TriangleMesh(const string &objpath, shared_ptr<Material> m) {
     }
   }
 }
+
+void TriangleMesh::scale(const Vec3 &s) {
+    optional<Box> newbox;
+
+    for (const auto &object : objects) {
+        object->scale_inplace(s);
+
+        if (!newbox.has_value())
+            newbox.emplace(*object->bounding_box());
+        else
+            newbox.emplace(*newbox + *object->bounding_box());
+    }
+
+    // falla si no tiene valor, lo cual no deberia pasar
+    box = make_shared<const Box>(*newbox);
+}

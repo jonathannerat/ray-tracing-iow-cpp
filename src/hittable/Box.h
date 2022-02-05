@@ -11,7 +11,7 @@ public:
   Point3 cback, cfront;
   shared_ptr<Material> mat_ptr;
 
-  Box(Point3 cb, Point3 cf, shared_ptr<Material> m);
+  Box(Point3 cb, Point3 cf, const shared_ptr<Material>& m);
   Box(const Box &o): cback(o.cback), cfront(o.cfront), mat_ptr(o.mat_ptr), box(o.box), faces(o.faces) {}
 
   Box operator+(const Box &o) const;
@@ -29,6 +29,9 @@ public:
                    HitRecord &rec) const override;
 
   virtual shared_ptr<const Box> bounding_box() const override;
+  
+  virtual void scale(const Vec3 &s) override;
+  virtual void move(const Vec3 &o) override;
 
 private:
   std::vector<Plane> faces;

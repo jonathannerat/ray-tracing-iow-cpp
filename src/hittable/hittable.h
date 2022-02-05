@@ -28,6 +28,8 @@ public:
                    HitRecord &rec) const = 0;
 
   virtual std::shared_ptr<const Box> bounding_box() const = 0;
+  virtual void scale(const Vec3 &s) = 0;
+  virtual void move(const Vec3 &o) = 0;
 };
 
 #endif // HITTABLE_H

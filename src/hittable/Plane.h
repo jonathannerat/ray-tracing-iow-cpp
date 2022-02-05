@@ -17,6 +17,9 @@ public:
                    HitRecord &rec) const override;
 
   virtual shared_ptr<const Box> bounding_box() const override;
+
+  virtual void scale(const Vec3 &s) override;
+  virtual void move(const Vec3 &o) override;
 };
 
 #endif // PLANE_H

@@ -39,3 +39,16 @@ bool Sphere::hit(const Ray &r, double t_min, double t_max,
 }
 
 std::shared_ptr<const Box> Sphere::bounding_box() const { return box; }
+
+// No vamos a implementar un elipsoide (por ahora), asi que el escalado se hará
+// tomando en cuenta el eje de menor amplitud
+void Sphere::scale(const Vec3 &s) {
+  double m = MIN(s.x, MIN(s.y, s.z));
+  radius *= m;
+  box = make_shared<const Box>(center - radius, center + radius, nullptr);
+}
+
+void Sphere::move(const Vec3 &o) {
+  center += o;
+  box = make_shared<const Box>(center - radius, center + radius, nullptr);
+}
