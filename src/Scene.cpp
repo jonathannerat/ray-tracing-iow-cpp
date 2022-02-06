@@ -192,7 +192,7 @@ Scene::Scene(const string &filepath)
             while (!ss.eof()) {
                 ss >> arg;
                 if (!arg.compare(0, 7, "sphere:")) {
-                    Vec3 center(0,1,0);
+                    Vec3 center(0, 1, 0);
                     double radius = 1;
 
                     while (!ss.eof()) {
@@ -210,7 +210,7 @@ Scene::Scene(const string &filepath)
 
                     world.add(make_shared<Sphere>(center, radius, materials[material]));
                 } else if (!arg.compare(0, 4, "box:")) {
-                    Vec3 cback, cfront(1,1,1);
+                    Vec3 cback, cfront(1, 1, 1);
 
                     while (!ss.eof()) {
                         ss >> arg;
@@ -243,6 +243,25 @@ Scene::Scene(const string &filepath)
                         throw invalid_argument("Bad material index:" + to_string(material));
 
                     world.add(make_shared<Plane>(origin, normal, materials[material]));
+                } else if (!arg.compare(0, 9, "triangle:")) {
+                    Point3 p0, p1, p2;
+
+                    while (!ss.eof()) {
+                        ss >> arg;
+                        if (!arg.compare(0, 3, "p0="))
+                            p0 = parse_vec3(arg);
+                        if (!arg.compare(0, 3, "p1="))
+                            p1 = parse_vec3(arg);
+                        if (!arg.compare(0, 3, "p2="))
+                            p2 = parse_vec3(arg);
+                        else if (!arg.compare(0, 9, "material="))
+                            material = stol(arg.substr(9));
+                    }
+
+                    if (material >= materials.size())
+                        throw invalid_argument("Bad material index:" + to_string(material));
+
+                    world.add(make_shared<Triangle>(p0, p1, p2, materials[material]));
                 } else if (!arg.compare(0, 5, "mesh:")) {
                     string objpath;
                     size_t leafs = 100;
