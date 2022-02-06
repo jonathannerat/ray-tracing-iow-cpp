@@ -149,14 +149,24 @@ Scene::Scene(const string &filepath)
 
             while (!ss.eof()) {
                 ss >> arg;
-                if (!arg.compare(0, 11, "dielectric=")) {
-                    ss >> arg;
-                    materials.push_back(make_shared<Dielectric>(stod(arg.substr(11))));
-                } else if (!arg.compare(0, 11, "lambertian=")) {
+                if (!arg.compare(0, 11, "lambertian=")) {
                     ss >> arg;
                     materials.push_back(make_shared<Lambertian>(parse_vec3(arg)));
+                } else if (!arg.compare(0, 11, "dielectric:")) {
+                    Vec3 color(1, 1, 1);
+                    double ir = 1;
+
+                    while (!ss.eof()) {
+                        ss >> arg;
+                        if (!arg.compare(0, 6, "color="))
+                            color = parse_vec3(arg);
+                        else if (!arg.compare(0, 3, "ir="))
+                            ir = stod(arg.substr(3));
+                    }
+
+                    materials.push_back(make_shared<Dielectric>(color, ir));
                 } else if (!arg.compare(0, 6, "metal:")) {
-                    Vec3 color(1,1,1);
+                    Vec3 color(1, 1, 1);
                     double fuzz = 0;
                     while (!ss.eof()) {
                         ss >> arg;

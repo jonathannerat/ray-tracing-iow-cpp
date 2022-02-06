@@ -10,9 +10,9 @@ public:
 
 class Lambertian : public Material {
 public:
-  Lambertian(const Color &a) : albedo(a) {}
+  explicit Lambertian(const Color &a) : albedo(a) {}
 
-  virtual bool scatter(const Ray &r_in, const HitRecord &rec,
+  bool scatter(const Ray &r_in, const HitRecord &rec,
                        Color &attenuation, Ray &scattered) const override {
     Vec3 scatter_direction = rec.normal + random_unit_vector();
 
@@ -31,7 +31,7 @@ class Metal : public Material {
 public:
   Metal(const Color &a, double f) : albedo(a), fuzz(f) {}
 
-  virtual bool scatter(const Ray &r_in, const HitRecord &rec,
+  bool scatter(const Ray &r_in, const HitRecord &rec,
                        Color &attenuation, Ray &scattered) const override {
     Vec3 reflected = reflect(r_in.dir.normalized(), rec.normal);
     scattered = Ray(rec.p, reflected + fuzz * random_in_unit_sphere());
@@ -45,10 +45,12 @@ public:
 
 class Dielectric : public Material {
 public:
-  Dielectric(double ir) : ir(ir) {}
-  virtual bool scatter(const Ray &r_in, const HitRecord &rec,
+  explicit Dielectric(double ir) : ir(ir) {}
+  Dielectric(Color albedo, double ir) : albedo(albedo), ir(ir) {}
+
+  bool scatter(const Ray &r_in, const HitRecord &rec,
                        Color &attenuation, Ray &scattered) const override {
-    attenuation = Color(1, 1, 1);
+    attenuation = albedo;
     double ref_ratio = rec.front_face ? 1 / ir : ir;
 
     Vec3 unit_dir = r_in.dir.normalized();
@@ -74,4 +76,5 @@ private:
     return r0 + (1 - r0) * pow((1 - cosine), 5);
   }
   double ir;
+  Color albedo = Color(1,1,1);
 };
