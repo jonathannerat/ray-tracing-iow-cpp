@@ -23,12 +23,14 @@ int main(int argc, char **argv) {
 
     if (argc > 2)
         outpath = argv[2];
-    else if (argc > 1)
+    else if (argc > 1) {
+        outpath = argv[1];
 #ifndef NO_IMAGEMAGICK
-        outpath.replace(outpath.rfind('.')+1, 3, "png");
+        outpath.replace(outpath.rfind('.') + 1, 3, "png");
 #else
         outpath.replace(outpath.rfind('.')+1, 3, "ppm");
 #endif
+    }
 
     scene.value().render(outpath);
 

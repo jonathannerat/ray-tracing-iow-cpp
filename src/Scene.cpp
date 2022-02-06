@@ -20,6 +20,18 @@ enum ParsingStage {
     NONE, OUTPUT, CAMERA, MATERIALS, OBJECTS
 };
 
+#define IMG_WIDTH 300
+#define ASPECT_RATIO (16.0/9.0)
+#define SPP 50
+#define DEPTH 5
+#define FROM Vec3(0,1,-3)
+#define TO Vec3()
+#define VUP Vec3(0,1,0)
+#define VFOV 45
+#define APERTURE 0
+#define FOCUS ((TO-FROM).length())
+#define LEAF_SIZE 25
+
 Vec3 Scene::parse_vec3(const std::string &s) {
     double x, y, z;
 
@@ -40,16 +52,16 @@ Vec3 Scene::parse_vec3(const std::string &s) {
 }
 
 Scene::Scene()
-        : output(350, 16.0 / 9.0, 50, 5),
-          camera(Vec3(0, 3, 4), Vec3(), Vec3(0, 1, 0), 45, 16.0 / 9.0, 0, 5) {
-    world.add(make_shared<KDTree<>>(random_objects(), 25));
+        : output(IMG_WIDTH, ASPECT_RATIO, SPP, DEPTH),
+          camera(FROM, TO, VUP, VFOV, ASPECT_RATIO, APERTURE, FOCUS) {
+    world.add(make_shared<KDTree<>>(random_objects(), LEAF_SIZE));
     auto ground_mat = make_shared<Lambertian>(Color(.5, .5, .5));
-    world.add(make_shared<Plane>(Point3(), Vec3(0, 1, 0), ground_mat));
+    world.add(make_shared<Plane>(Point3(), VUP, ground_mat));
 }
 
 Scene::Scene(const string &filepath)
-        : output(350, 16.0 / 9.0, 50, 5),
-          camera(Vec3(0, 3, 4), Vec3(), Vec3(0, 1, 0), 45, 16.0 / 9.0, 0, 5) {
+        : output(IMG_WIDTH, ASPECT_RATIO, SPP, DEPTH),
+          camera(FROM, TO, VUP, VFOV, ASPECT_RATIO, APERTURE, FOCUS) {
     string line;
     ifstream file(filepath);
 

@@ -1,25 +1,29 @@
 # Las lineas que empiezan con un # o que estan vacias, son comentarios
 # El archivo esta separado en distintas secciones para configurar la escena.
 #
-# Cada seccion contiene puede contener o propiedades o diccionarios. Las propiedades se defined con
+# Cada seccion puede contener o propiedades o diccionarios. Las propiedades se definen con
 # un valor (como width y ratio en output, o from y to en camera). Por otro lado, los diccionarios
 # se definen con mas propipedades (como sphere en la seccion de objetos, que requiere de una
-# propiedad cetner y radius). Los diccionarios no se pueden separar en varias lineas, deben estar
+# propiedad center y radius). Los diccionarios no se pueden separar en varias lineas, deben estar
 # definidos en una sola linea
 
 
 # === OUTPUT ===
 # La seccion OUTPUT contiene parametros del archivo de salida.
-# - Se puede definir el tamaño de la imagen usando width y (aspect_)ratio, o width y height.
-# - spp: samples per pixel, indica cuantos rayos pasan por cada pixel (anti-aliasing)
-# - depth: maxima cantidad de veces que el rayo puede reflejarse / refractarse
+# - Se puede definir el tamaño de la imagen usando width y (aspect_)ratio, o width y height
+#   (default: width=300).
+# - ratio: aspect ratio, se puede definir como un float o como el cociente entre 2 floats (w/h)
+#          (default=16/9)
+# - spp: samples per pixel, indica cuantos rayos pasan por cada pixel (anti-aliasing) (default=50)
+# - depth: maxima cantidad de veces que el rayo puede reflejarse / refractarse (default=5)
 
 output:
-    width=720
-#   height=480
+    width=640
+#   height=360
     ratio=16/9
-    spp=100
-    depth=50
+#   ratio=1.777778
+    spp=30
+    depth=5
 
 # También se puede definir en una sola linea
 # output: width=720 ratio=16/9 spp=100 depth=50
@@ -28,13 +32,13 @@ output:
 
 # === CAMERA ===
 # La seccion CAMERA contiene parametros de la posicion desde la cual se observa la escena.
-# - from / to: desde y hacia donde apunta la cámara
-# - vup: dirección que se considera "arriba"
-# - focus: distancia de enfoque
-# - aperture: apertura de la lente de la camara
-# - fov: field of view en grados
+# - from / to: desde y hacia donde apunta la cámara (default: from=0,1,-3 to=0,0,0)
+# - vup: dirección que se considera "arriba" (default=0,1,0)
+# - focus: distancia de enfoque (default=distancia entre from hasta to)
+# - aperture: apertura de la lente de la camara (default=0)
+# - fov: field of view en grados (default=45)
 camera:
-    from=0,.4,-2
+    from=0,.4,-5
     to=0,1,0
 #   vup=0,1,0
 #   focus=10.333
@@ -61,7 +65,7 @@ materials:
 
 # Indice 3, etc...
     metal: color=.8,.5,.9
-#   metal: por defecto, color=1,1,1 y fuzz=1
+#   metal: default: color=1,1,1 fuzz=0
 # ==============
 
 
@@ -69,25 +73,27 @@ materials:
 # La sección OBJECTS define objetos que van a formar parte de la escena. Si no definimos esta
 # sección, o la dejamos vacía, el programa generara una escena random por defecto.
 # - sphere: recibe como paramertos center, radius y material
-# - plane: recibe como parametros origin, normal y material
-# - box: recibe como parametros cback, cfront y material. cback y cfront son dos vertices opuestos
-# del box, cback es el vertice con las coordenadas minimas y cfront con las coordenadas máximas. En
-# un cubo unitario con esquinas en (0,0,0) y (1,1,1), cback sería (0,0,0) y cfront (1,1,1). Notar
-# que el box esta alineado a los ejes cartesianos, por eso lo podemos definir con 2 vertices
-# - mesh: recibe como parametros objpath, leafs, move y scale. objpath es un archivo .obj que
-contiene una malla de triangulos, leafs es la cantidad de elementos que tendra el KDTree interno en
-cada una de las hojas del arbol, move es un vector que indica hacia donde se tiene que mover el
-mesh, y scale indica como se debe escalar el mesh (cada coordenada indica la escala en cada eje)
+# - plane:  recibe como parametros origin, normal y material
+# - box:    recibe como parametros cback, cfront y material. cback y cfront son dos vertices
+#           opuestos del box, cback es el vertice con las coordenadas minimas y cfront con las
+#           coordenadas máximas. En  un cubo unitario con esquinas en (0,0,0) y (1,1,1), cback sería
+#           (0,0,0) y cfront (1,1,1). Notar que el box esta alineado a los ejes cartesianos, por
+#           eso lo podemos definir con 2 vertices.
+# - mesh:   recibe como parametros objpath, leafs, move y scale. objpath es un archivo .obj que
+#           contiene una malla de triangulos, leafs es la cantidad de elementos que tendra el KDTree
+#           interno en cada una de las hojas del arbol, move es un vector que indica hacia donde se
+#           tiene que mover el mesh, y scale indica como se debe escalar el mesh (cada coordenada
+#           indica la escala en cada eje)
 
 objects:
     sphere: center=3,1,0 material=0
-#   sphere: por defecto, center=0,1,0 y radius=1
+#   sphere: default: center=0,1,0 y radius=1
 
     plane: material=1
-#   plane: por defecto, origin=0,0,0 y normal=0,1,0
+#   plane: default: origin=0,0,0 y normal=0,1,0
 
     box: cback=1,0,1 cfront=2,1,0 material=3
-#   box: por defecto, cback=0,0,0 y cfront=1,1,1
+#   box: default: cback=0,0,0 y cfront=1,1,1
 
     mesh: objpath=models/cow.obj scale=2,2,2 move=0,4,0 material=0
     sphere: center=-3,1,0 material=3
