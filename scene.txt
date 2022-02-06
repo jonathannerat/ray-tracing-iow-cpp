@@ -1,0 +1,17 @@
+output: width=720 ratio=16/9 spp=100 depth=50
+
+camera: from=-5,2,-3 to=0,1,2
+
+materials:
+    lambertian=.2,.6,.1
+    lambertian=.3,.4,.7
+    metal: color=.8,.8,.8
+    dielectric=1.2
+    lambertian=1,.85,.36
+
+objects:
+    plane: origin=0,-.2,0 material=0
+    sphere: center=-3,1,2 material=1
+    sphere: center=-1,1,2 material=2
+    sphere: center=1,1,2 material=3
+#    mesh: objpath=models/cow.obj leafs=200 move=0,2,0 material=4
