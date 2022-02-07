@@ -20,6 +20,7 @@ void Triangle::scale_inplace(const Vec3 &s) {
     p0 = p0 * s;
     p1 = p1 * s;
     p2 = p2 * s;
+    refp = refp * s;
 
     box = make_shared<const Box>(box->cback * s, box->cfront * s, box->mat_ptr);
 }

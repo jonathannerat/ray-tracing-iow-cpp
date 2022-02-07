@@ -95,7 +95,8 @@ Scene::Scene(const string &filepath)
                 if (!arg.compare(0, 6, "ratio=")) {
                     size_t pos;
                     if ((pos = arg.find('/')) != string::npos) {
-                        output.aspect_ratio = stod(arg.substr(6, pos-6)) / stod(arg.substr(pos+1));
+                        output.aspect_ratio =
+                                stod(arg.substr(6, pos - 6)) / stod(arg.substr(pos + 1));
                     } else {
                         output.aspect_ratio = stod(arg.substr(6));
                     }
@@ -308,8 +309,7 @@ void Scene::render(ostream &os) const {
     os << "P3\n" << output.width << ' ' << output.height << "\n255\n";
 
     for (int j = output.height - 1; j >= 0; j--) {
-        cout << "\rWriting lines: " << output.height - j << '/' << output.height << "     "
-             << flush;
+        cout << "\rWriting lines: " << output.height - j << '/' << output.height << flush;
         for (int i = 0; i < output.width; i++) {
             Color pixel;
 
@@ -351,18 +351,21 @@ Color Scene::ray_color(const Ray &r, const Hittable &world, int depth) {
 HittableList<> Scene::random_objects() {
     HittableList<> scene;
 
-    auto mat1 = make_shared<Dielectric>(1.5);
+    auto mat1 = make_shared<Dielectric>(Color(.3, .6, .1), 1.3);
+    auto mat1_in = make_shared<Dielectric>(1.3);
     auto sphere1 = make_shared<Sphere>(Point3(-2, 1, 0), 1, mat1);
+    auto sphere1_in = make_shared<Sphere>(Point3(-2, 1, 0), -.8, mat1);
     scene.add(sphere1);
+    scene.add(sphere1_in);
 
-    auto mat3 = make_shared<Metal>(Color(.7, .6, .5), .05);
+    auto mat3 = make_shared<Metal>(Color(.7, .7, .95), .05);
     auto sphere2 = make_shared<Sphere>(Point3(2, 1, 0), 1, mat3);
     scene.add(sphere2);
 
-    auto mat_cow = make_shared<Lambertian>(Color(1, .84, .36));
-    auto cow = make_shared<KDTree<Triangle>>(TriangleMesh("models/cow.obj", mat_cow), 200);
-    cow->scale(Vec3(3, 3, 3));
-    cow->move(Vec3(0, 1, 0));
+    auto mat_cow = make_shared<Lambertian>(Color(1, .2, .16));
+    auto cow_mesh = TriangleMesh("models/cow.obj", mat_cow);
+    cow_mesh.move(Vec3(0, 1, 0));
+    auto cow = make_shared<KDTree<Triangle>>(cow_mesh, 100);
     scene.add(cow);
 
     for (int a = -5; a < 16; a++) {
