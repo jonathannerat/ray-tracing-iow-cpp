@@ -24,8 +24,8 @@ enum ParsingStage {
 #define ASPECT_RATIO (16.0/9.0)
 #define SPP 50
 #define DEPTH 5
-#define FROM Vec3(0,1,-3)
-#define TO Vec3()
+#define FROM Vec3(-5,1.5,-4)
+#define TO Vec3(0,1,0)
 #define VUP Vec3(0,1,0)
 #define VFOV 45
 #define APERTURE 0
