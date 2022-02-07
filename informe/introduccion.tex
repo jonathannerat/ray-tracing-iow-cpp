@@ -1,0 +1,23 @@
+\begin{abstract}
+    En este trabajo implementaremos un Ray Tracer basado en las guías de Shirley
+    \footnote[1]{https://raytracing.github.io/books/RayTracingInOneWeekend.html} capaz de renderizar
+    distintos objetos (esferas,
+    cubos, planos y mallas de triángulos) y materiales (dieléctricos, metales y colores difusos).
+    Además veremos una de las estructuras más utilizada para optimizar el renderizado cuando tenemos
+    muchos objetos en una escena, el KD Tree.
+\end{abstract}
+
+
+\section{Introducción} \label{sec:introduccion}
+
+En el mundo de la computación gráfica, existen distintos algoritmos para renderizar objetos 3D
+en imágenes 2D. Se pueden clasificar en 2 categorías: \textit{image-order
+rendering} y \textit{object-order rendering}.
+En \textit{object-order rendering}, se considera cada objeto de una escena y se modifican los
+pixeles que este influye.
+Por otro lado, en \textit{image-order rendering}, se recorre cada pixel de la imagen, y se
+calcula su valor considerando a todos los objetos que influyen en el.
+
+El Ray Tracing es un ejemplo de un algoritmo de \textit{image-order rendering}.
+Para generar una imagen, se lanzan \textit{rayos} hacia cada pixel y se calcula el color del
+mismo como una combinación de todos los objetos con los que este rayo colisiona.

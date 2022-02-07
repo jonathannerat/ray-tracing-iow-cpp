@@ -1,0 +1,70 @@
+% !TeX spellcheck = es_AR
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{caratula}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel} % separación silábica en castellano
+
+%\usepackage[paper=a4paper, margin=2cm]{geometry} % especifico márgenes manualmente
+\usepackage{a4wide} % margenes un poco más anchos
+
+%\usepackage{caratula/caratula}
+%\graphicspath{ {images/} }
+%\usepackage{tikz}
+%\usepackage{tikz-qtree}
+%\usepackage{framed}
+%\usepackage{array}
+%\usepackage{tabular}
+
+\usepackage{microtype} % saca warnings de underfull boxes
+\usepackage{fancyhdr} % encabezado y pie de página
+\usepackage{lastpage} % para que muestre la última página en footer
+
+% Comandos para figuras, graficos, tikz, etc.
+\usepackage{tikz}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{svg}
+
+% Comandos para teoremas, etc.
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+% comandos para algoritmos
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\algnewcommand{\IfThenElse}[3]{% \IfThenElse{<if>}{<then>}{<else>}
+\State \algorithmicif\ #1\ \algorithmicthen\ #2\ \algorithmicelse\ #3}
+\algnewcommand{\IfThen}[2]{% \IfThenElse{<if>}{<then>}
+  \State \algorithmicif\ #1\ \algorithmicthen\ #2}
+  
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert_2}
+\usepackage{hyperref}
+\usepackage{siunitx}
+
+\pagestyle{fancy} % Acomodo el encabezado y pie de página.
+\lhead{Fundamentos de la Computación Gráfica}
+\setlength{\headheight}{12pt}
+\rhead{Segundo Cuatrimestre 2021}
+\cfoot{\thepage /\pageref{LastPage}}
+
+\begin{document}
+
+\input{caratula}
+
+\maketitle
+
+\input{introduccion}
+
+\input{objetos}
+
+\input{estructuras}
+
+\input{conclusion}
+
+\end{document}
