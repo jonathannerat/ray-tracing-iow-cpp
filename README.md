@@ -18,3 +18,7 @@ generar. Para ver el formato del archivo `SCENEFILE`, ver el archivo `scene_tuto
 
 Se puede correr el programa sin argumentos, en ese caso se generará una escena aleatoria y se 
 escribirá el resultado en `out.png`
+
+## Escena Final
+
+![Render de una escena arbitraria con planos, cubos, esferas y mallas de triángulos](./informe/imgs/escena_final.png)
